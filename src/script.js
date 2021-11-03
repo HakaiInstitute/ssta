@@ -275,7 +275,7 @@ async function printy(colorData) {
     const count = 555976 * 3 //size of each grid
     for (let i = 0; i < colorData.length; i += count) {
         let dayofData = colorData.slice(i, i + count)
-        await delay(100);
+        // await delay(1000);
         // console.log('tick')
         animateFiles(dayofData)
         
@@ -287,9 +287,15 @@ Promise.all(promises)
     .then(function(data) {
       let colorData = null
         // console.log(data)
+        async function load () { 
         for(let i = 0; i < data.length; i++){
-          colorData =  i === 0 ? data[i] : Float32Concat(colorData,data[i])
+          // colorData =  i === 0 ? data[i] : Float32Concat(colorData,data[i])
+          await delay(100);
+          
+          printy(data[i])
         }
+      }
+      load()
         // let c = new Float32Array(data.length * 555976 * 3);
 
         // let colorData = Float32Concat(data[0],data[1])
@@ -303,7 +309,7 @@ Promise.all(promises)
 
         // animate();
 
-printy(colorData)
+// printy(colorData)
 // test additional web workers
 
 

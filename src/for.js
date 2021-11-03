@@ -8,7 +8,7 @@ const count = 555976 * 3
 onmessage = function (fileToLoad) {
   // console.log(fileToLoad.data)
   d3.buffer(fileToLoad.data).then(function (data) {
-    console.log(new Float32Array(data).length)
+    // console.log(new Float32Array(data).length)
     postMessage(new Float32Array(data))
   })
   // d3.csv(fileToLoad.data).then(function (data) {
