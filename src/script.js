@@ -12,7 +12,7 @@ const textureLoader = new THREE.TextureLoader(loadingManager)
 
 const earthTexture = textureLoader.load('./textures/8k_earth_daymap.jpg')
 // console.log(earthTexture)
-earthTexture.needsUpdate = true
+// earthTexture.needsUpdate = true
 
 // Scene
 const scene = new THREE.Scene()
