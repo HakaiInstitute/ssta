@@ -1,5 +1,6 @@
 # Project specific
 monthOfDailyData.csv
+<<<<<<< HEAD
 *.dat
 
 # Currently we need the dist folder since messed up LFS experimentation going on
@@ -161,3 +162,5 @@ out
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+=======
+>>>>>>> 9641073465ae640ffe6a6885ae297b1cc77605d6
