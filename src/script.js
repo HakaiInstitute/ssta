@@ -313,6 +313,10 @@ Promise.all(promises)
 // test additional web workers
 
 
+    }).then(() => {
+
+      console.log('hi')
+      
     })
     .catch(function(error) {
         // something went wrong
