@@ -10,7 +10,7 @@ const canvas = document.querySelector('canvas.webgl')
 const loadingManager = new THREE.LoadingManager()
 const textureLoader = new THREE.TextureLoader(loadingManager)
 
-const earthTexture = textureLoader.load('./textures/8k_earth_daymap.jpg')
+const earthTexture = textureLoader.load('./textures/2k_earth_daymap.jpg')
 // console.log(earthTexture)
 // earthTexture.needsUpdate = true
 
