@@ -170,10 +170,11 @@ d3.csv('./20150106.csv').then(function (positionData) {
   /**
  * Animate
  */
-  //   const clock = new THREE.Clock()
+    const clock = new THREE.Clock()
 
   const tick = () => {
-    // const elapsedTime = clock.getElapsedTime()
+    const elapsedTime = clock.getElapsedTime()
+    // console.log(elapsedTime)
 
     // Update controls
     controls.update()
@@ -236,7 +237,7 @@ function Float32Concat(first, second)
     result.set(first);
     result.set(second, firstLength);
 
-    return result;z
+    return result;
 }
 
 function createWorker(data) {
@@ -262,9 +263,11 @@ const dates = Array.from({length: 30}, (_, i) => {
 
 
 let promises = [];
-for(let i = 0; i < dates.length; i++) {
+for(let i = 0; i < 10; i++) {
     promises.push(createWorker('./data/'+ dates[i].toISOString().slice(0, 10).replaceAll('-','')+ '.dat'));
 }
+
+
 
 // runs the animation
 async function printy(colorData) {
@@ -283,44 +286,52 @@ async function printy(colorData) {
 
 
 }
-Promise.all(promises)
+
+async function top() {
+  //promise1
+  const parent = await Promise.all(promises)
     .then(function(data) {
+      console.log(data, 'fist loat')
       let colorData = null
         // console.log(data)
         async function load () { 
         for(let i = 0; i < data.length; i++){
-          // colorData =  i === 0 ? data[i] : Float32Concat(colorData,data[i])
-          await delay(100);
+          await delay(1000);
           
           printy(data[i])
         }
       }
       load()
-        // let c = new Float32Array(data.length * 555976 * 3);
 
-        // let colorData = Float32Concat(data[0],data[1])
-        //  colorData = Float32Concat(colorData,data[2])
-        //  colorData = Float32Concat(colorData,data[3])
-        // console.log(colorData.length)
-        // 
-        // for(j = 0; j < data.length; j++){
-            // printy(data[0])
-        // }
-
-        // animate();
-
-// printy(colorData)
-// test additional web workers
-
-
-    }).then(() => {
-
-      console.log('hi')
-      
+      level2()
     })
+   
     .catch(function(error) {
         // something went wrong
     });
+
+    async function level2() {
+      let promises2 = [];
+for(let j = 10; j < 20; j++) {
+  promises2.push(createWorker('./data/'+ dates[j].toISOString().slice(0, 10).replaceAll('-','')+ '.dat'));
+}
+      const child = await Promise.all(promises2)
+      .then(async function(data1) {
+        console.log(data1, 'hi')
+        // wait for first set of loads to finish playing
+      await delay(10000)
+        
+        // return items
+        for(let i = 0; i < data1.length; i++){
+          await delay(1000);
+          
+          printy(data1[i])
+        }
+      })
+    }
+  }
+
+  top()
 
 
 
