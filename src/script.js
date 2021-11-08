@@ -150,7 +150,8 @@ d3.csv('./20150106.csv').then(function (positionData) {
   })
   // Camera
   const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
-  camera.position.z = 3
+  camera.position.set(-1.5, 1.5, 2);
+  camera.lookAt(new THREE.Vector3(0, 0, 0));
   scene.add(camera)
 
   // Controls
@@ -166,10 +167,21 @@ d3.csv('./20150106.csv').then(function (positionData) {
 
   renderer.setSize(sizes.width, sizes.height)
   renderer.render(scene, camera)
-
+  animate()
   /**
  * Animate
  */
+   function animate() {
+    // console.log(scene)
+    sphere.rotation.y += 0.0004;
+    particles.rotation.y += 0.0004;
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+    
+    // labelRenderer.render(scene, camera);
+  }
+  
+
     const clock = new THREE.Clock()
 
   const tick = () => {
@@ -188,20 +200,8 @@ d3.csv('./20150106.csv').then(function (positionData) {
 
   tick()
 
-//   function animate() {
-//     // console.log(scene)
-//     scene.rotation.y += 0.04;
-//     requestAnimationFrame(animate);
-//     renderer.render(scene, camera);
-//     // labelRenderer.render(scene, camera);
-//   }
-//   function animate() {
-//     // resize();
-//     scene.rotation.y += 0.005;
-//     renderer.render(scene, camera);
-//     requestAnimationFrame(animate);
-//   }
-//   animate()
+  
+  
   // all the rest of the data
 
   function animateFiles (colorsIn) {
@@ -291,7 +291,7 @@ async function top() {
   //promise1
   const parent = await Promise.all(promises)
     .then(function(data) {
-      console.log(data, 'fist loat')
+      // console.log(data, 'fist loat')
       let colorData = null
         // console.log(data)
         async function load () { 
@@ -303,6 +303,7 @@ async function top() {
       }
       load()
 
+      // second load and animation
       level2()
     })
    
@@ -312,12 +313,12 @@ async function top() {
 
     async function level2() {
       let promises2 = [];
-for(let j = 10; j < 20; j++) {
-  promises2.push(createWorker('./data/'+ dates[j].toISOString().slice(0, 10).replaceAll('-','')+ '.dat'));
-}
+      for(let j = 10; j < 20; j++) {
+        promises2.push(createWorker('./data/'+ dates[j].toISOString().slice(0, 10).replaceAll('-','')+ '.dat'));
+      }
       const child = await Promise.all(promises2)
       .then(async function(data1) {
-        console.log(data1, 'hi')
+        // console.log(data1, 'hi')
         // wait for first set of loads to finish playing
       await delay(10000)
         
