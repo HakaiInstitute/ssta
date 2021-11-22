@@ -270,7 +270,7 @@ for(let i = 0; i < 10; i++) {
 
 
 // runs the animation
-async function printy(colorData) {
+async function setUpAnimation(colorData) {
       // Rotation
  
   
@@ -278,8 +278,9 @@ async function printy(colorData) {
     const count = 555976 * 3 //size of each grid
     for (let i = 0; i < colorData.length; i += count) {
         let dayofData = colorData.slice(i, i + count)
-        // await delay(1000);
+        await delay(1000);
         // console.log('tick')
+        
         animateFiles(dayofData)
         
     }
@@ -289,44 +290,52 @@ async function printy(colorData) {
 
 async function top() {
   //promise1
-  const parent = await Promise.all(promises)
-    .then(function(data) {
-      // console.log(data, 'fist loat')
-      let colorData = null
-        // console.log(data)
-        async function load () { 
-        for(let i = 0; i < data.length; i++){
-          await delay(1000);
-          
-          printy(data[i])
-        }
-      }
-      load()
+  await Promise.all(promises)
+    .then(async function(data) {
 
-      // second load and animation
-      level2()
-    })
-   
-    .catch(function(error) {
-        // something went wrong
-    });
-
-    async function level2() {
+      // load second set of data
       let promises2 = [];
       for(let j = 10; j < 20; j++) {
         promises2.push(createWorker('./data/'+ dates[j].toISOString().slice(0, 10).replaceAll('-','')+ '.dat'));
       }
-      const child = await Promise.all(promises2)
+     
+      // do stuff with first load)
+      let colorData = null
+        // console.log(data)
+        // async function load () { 
+        for(let i = 0; i < data.length; i++){
+          await delay(1000);
+          
+          setUpAnimation(data[i])
+          if (i === data.length-1){
+            level2(promises2)
+          }
+        }
+
+    })
+
+    // .catch(function(error) {
+    //     // something went wrong
+    // });
+
+    async function level2(promises2) {
+      console.log('start 2');
+      // let promises2 = [];
+      // for(let j = 10; j < 20; j++) {
+      //   promises2.push(createWorker('./data/'+ dates[j].toISOString().slice(0, 10).replaceAll('-','')+ '.dat'));
+      // }
+
+      await Promise.all(promises2)
       .then(async function(data1) {
         // console.log(data1, 'hi')
         // wait for first set of loads to finish playing
-      await delay(10000)
+      // await delay(10000) 
         
         // return items
         for(let i = 0; i < data1.length; i++){
           await delay(1000);
           
-          printy(data1[i])
+          setUpAnimation(data1[i])
         }
       })
     }
